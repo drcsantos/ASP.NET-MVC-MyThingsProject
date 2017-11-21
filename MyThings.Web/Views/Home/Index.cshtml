@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <img class="img-responsive" src="@Url.Content("~/Content/Images/logo.png")" alt="logo" />
+    </div>
+    <div class="col-xs-12 col-md-8">
+        <h1>Sharing <small>1.0.0</small></h1>
+        <p class="lead">Sharing é um sistema desenvolvido para você gerenciar seus itens pessoais como: jogos, livros, CDs, DVDs, etc. Com ele você pode compartilhar suas coisas com seus amigos sem perder o controle de "com quem está".</p>
+        @if (!Request.IsAuthenticated)
+        {
+            <p>@Html.ActionLink("Registre-se já!", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerNowLink", @class = "btn btn-primary btn-lg" })</p>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>É fácil</h2>
+        <p>
+            Para começar a usar o sistema, após entrar com seu usuário e senha, basta criar uma categoria de sua preferencia e cadastrar suas coisas. Para compartilhar com um amigo, basta cadastrá-lo e atribuir o item ao amigo desejado. Com poucos cliques você pode gerenciar todos os seus items pessoais e o paradeiro dos mesmos.
+        </p>        
+    </div>
+    <div class="col-md-4">
+        <h2>É grátis</h2>
+        <p>Você pode utilizar este sistema sem nenhum custo ou taxa, basta fazer o deploy e usar.</p>
+    </div>
+    <div class="col-md-4">
+        <h2>É open source</h2>
+        <p>Este sistema é uma implementaçao de estudos e, por isso, possui seu código aberto e disponível a todos que se interessarem.</p>
+        <p><a class="btn btn-default" href="https://github.com/drcsantos/ASP.NET-MVC-MyThingsProject">GitHub &raquo;</a></p>
+    </div>
+</div>

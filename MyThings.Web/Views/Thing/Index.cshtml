@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MyThings.Web.Models.Category>
+
+@{
+    ViewBag.Title = "Minhas Coisas";
+}
+<h2>@ViewBag.Title</h2>
+
+<div class="btn-toolbar">
+    @Html.ActionLink("Novo", "Create", null, new { @class = "btn btn-primary" })
+</div>
+<div>
+    @foreach (var category in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>
+                    @if (!string.IsNullOrEmpty(category.Icon))
+                    {
+                         <i class="glyphicon @category.Icon"></i>
+                    }
+                    @Html.DisplayFor(modelItem => category.Name)
+                </strong>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="40px"></th>
+                            <th>Nome</th>
+                            <th>Está com</th>
+                            <th width="130px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var thing in category.Things)
+                        {
+                            <tr>
+                                <td scope="row">
+                                    <img src="@thing.ImageLink" class="img-rounded" alt="photo" />
+                                </td>
+                                <td><h4>@Html.DisplayFor(modelItem => thing.Name)</h4></td>
+                                <td></td>
+                                <td>
+                                    <a href="@Url.Action("Details", new { id = thing.ID })" class="btn btn-sm btn-primary">
+                                        <i class="glyphicon glyphicon-open"></i>
+                                    </a>
+                                    <a href="@Url.Action("Edit", new { id = thing.ID })" class="btn btn-sm btn-warning">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = thing.ID })" data-confirmation data-method="post" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MyThings.Web.Models.Person>
+
+@{
+    ViewBag.Title = "Meus Amigos";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="btn-toolbar">
+    @Html.ActionLink("Novo", "Create", null, new { @class = "btn btn-primary" })
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="40px"></th>
+                <th>Nome</th>
+                <th width="90px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in Model)
+            {
+                <tr>
+                    <td><img src="@person.ImageLink" class="img-rounded" alt="Profile" /></td>
+                    <td><h4>@Html.DisplayFor(modelItem => person.FullName)</h4></td>
+                    <td>
+                        @*<a href="@Url.Action("Details", new { id = category.CategoryID })" class="btn btn-sm btn-primary">
+                                <i class="glyphicon glyphicon-open"></i>
+                            </a>*@
+                        <a href="@Url.Action("Edit", new { id = person.PersonID })" class="btn btn-sm btn-warning">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = person.PersonID })" data-confirmation="Deseja realmente excluir @person.FullName?" data-method="post" class="btn btn-sm btn-danger">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

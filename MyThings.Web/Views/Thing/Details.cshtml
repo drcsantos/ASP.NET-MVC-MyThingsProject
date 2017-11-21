@@ -1,0 +1,38 @@
+﻿@model MyThings.Web.Models.Thing
+
+@{
+    ViewBag.Title = "Detalhes";
+}
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-5">
+        <div class="thumbnail">
+            <img src="@Model.ImageLink" alt="photo" />
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-7 well well-sm" style="min-height: 250px">
+        <h3>@Html.DisplayFor(modelItem => Model.Name) <small class="badge">@Html.DisplayFor(modelItem => Model.Category.Name)</small></h3>
+        <h5>@Html.DisplayFor(modelItem => Model.Description)</h5>
+        @if (Model.PersonID != null)
+        {
+            <h5><small>Emprestado para:</small></h5>
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" style="max-width: 48px" src="@Model.Person.ImageLink" alt="user">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">@Html.DisplayFor(modelItem => Model.Person.Name)</h4>
+                    Desde @Model.LentDate.Value.ToShortDateString()
+                </div>
+            </div>
+
+            <div class="section" style="padding:20px;">
+                <button class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i> Já devolveu</button>
+            </div>
+        }        
+    </div>
+    <div>
+        @Html.ActionLink("Voltar à Minhas Coisas", "Index", null, new { @class = "btn btn-default" })
+    </div>    
+</div>

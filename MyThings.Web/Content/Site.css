@@ -1,0 +1,45 @@
+﻿body {
+    padding-top: 60px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.btn-toolbar {
+    margin-bottom: 20px;
+}
+
+.table img {
+    max-width: 32px;
+    max-height: 32px;
+}
+
+a.navbar-brand {
+    padding-top: 10px;
+}
+
+    a.navbar-brand img {
+        display: inline-block;
+        max-width: 32px;
+        margin: 0;
+        padding-top: 0;
+    }
+
+    a.navbar-brand span {
+        display: inline-block;
+    }
+
+    a.navbar-brand small {
+        font-size: 50%;
+    }
