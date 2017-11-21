@@ -6,6 +6,11 @@
     function init() {
         initPasteButtons();
         initDialogs();
+        initTooltip();
+    }
+
+    function initTooltip() {
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
     function initPasteButtons() {

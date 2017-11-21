@@ -48,7 +48,7 @@
                                     }
                                     else
                                     {
-                                        <a href="@Url.Action("Lend", new { id = thing.ID })">
+                                        <a data-toggle="tooltip" title="@thing.Person.FullName" href="@Url.Action("Lend", new { id = thing.ID })">
                                             <img class="img-rounded" src="@thing.Person.ImageLink" alt="@thing.Person.Name" />
                                         </a>
                                     }

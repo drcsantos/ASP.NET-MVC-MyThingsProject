@@ -17,7 +17,7 @@
             <h5><small>Emprestado para:</small></h5>
             <div class="media">
                 <div class="media-left">
-                    <a href="#">
+                    <a href="@Url.Action("Lend", new { id = Model.ID })">
                         <img class="media-object" style="max-width: 48px" src="@Model.Person.ImageLink" alt="user">
                     </a>
                 </div>
@@ -25,10 +25,6 @@
                     <h4 class="media-heading">@Html.DisplayFor(modelItem => Model.Person.Name)</h4>
                     Desde @Model.LentDate.Value.ToShortDateString()
                 </div>
-            </div>
-
-            <div class="section" style="padding:20px;">
-                <button class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i> Já devolveu</button>
             </div>
         }        
     </div>
