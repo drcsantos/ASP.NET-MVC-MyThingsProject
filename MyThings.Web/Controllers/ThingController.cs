@@ -119,6 +119,8 @@ namespace MyThings.Web.Controllers
 
             var service = Service;
             var thingToUpdate = service.FindById(id.Value);
+            if (thingToUpdate == null)
+                return HttpNotFound();
             if (TryUpdateModel(thingToUpdate, "",
                new string[] { "PersonID", "LentDate" }))
             {
@@ -133,6 +135,33 @@ namespace MyThings.Web.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
                 }
             }
+            return View(thingToUpdate);
+        }
+
+        // POST: Thing/GiveBack/5
+        [HttpPost]
+        public ActionResult GiveBack(Guid? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var service = Service;
+            var thingToUpdate = service.FindById(id.Value);
+            if (thingToUpdate == null)
+                return HttpNotFound();
+            thingToUpdate.LentDate = null;
+            thingToUpdate.PersonID = null;
+            try
+            {
+                service.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (RetryLimitExceededException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+
             return View(thingToUpdate);
         }
 
@@ -162,6 +191,8 @@ namespace MyThings.Web.Controllers
 
             var service = Service;
             var thingToUpdate = service.FindById(id.Value);
+            if (thingToUpdate == null)
+                return HttpNotFound();
             if (TryUpdateModel(thingToUpdate, "",
                new string[] { "Name", "Description", "ImageLink", "CategoryID" }))
             {

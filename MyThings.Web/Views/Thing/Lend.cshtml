@@ -4,7 +4,23 @@
     ViewBag.Title = "Empréstimo do Item";
 }
 <div class="row">
-    <h2>@ViewBag.Title</h2>
+    @if (Model.PersonID != null)
+    {
+        <h2>Item Emprestado!</h2>        
+        using (Html.BeginForm("GiveBack", "Thing", new { id = Model.ThingID }, FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.ThingID)
+            <div class="row">
+                <div class="col-lg-12 btn-toolbar">
+                    <input type="submit" value="Já Devolveu!" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h2>(Novo) @ViewBag.Title</h2>
+    }
 
     @using (Html.BeginForm())
     {
@@ -36,11 +52,11 @@
             </div>
             <div class="col-sm-12 col-lg-6 form-group">
                 <label class="control-label" for="PersonID">Amigo</label>
-                <select id="PersonID" name="PersonID" class="selectpicker form-control"  data-live-search="true">
-                @foreach (var item in ViewBag.PersonID)
+                <select id="PersonID" name="PersonID" class="selectpicker form-control" data-live-search="true">
+                    @foreach (var item in ViewBag.PersonID)
                 {
-                    <option selected="@item.Selected" value="@item.Value">@item.Text</option>
-                }
+                        <option selected="@item.Selected" value="@item.Value">@item.Text</option>
+                    }
                 </select>
                 @Html.ValidationMessageFor(m => m.PersonID, "", new { @class = "text-danger" })
             </div>
