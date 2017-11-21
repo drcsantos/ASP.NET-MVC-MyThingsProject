@@ -66,9 +66,9 @@
                         type: method.toUpperCase()
                     }).success(function () {
                         window.location.reload(true);
-                    }).error(function () {
-                        //TODO: Emprove showing up error method
-                        alert("Erro!");
+                    }).error(function (request, status, error) {
+                        //TODO: Improve showing up error method
+                        alert("Error: " + error);
                     });
                 } else if (href) {
                     window.location = href;
