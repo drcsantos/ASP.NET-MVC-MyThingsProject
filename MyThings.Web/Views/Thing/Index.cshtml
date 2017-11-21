@@ -16,7 +16,7 @@
                 <strong>
                     @if (!string.IsNullOrEmpty(category.Icon))
                     {
-                         <i class="glyphicon @category.Icon"></i>
+                         <i class="@category.Icon"></i>
                     }
                     @Html.DisplayFor(modelItem => category.Name)
                 </strong>
@@ -48,7 +48,7 @@
                                         <i class="glyphicon glyphicon-edit"></i>
                                     </a>
                                     <a href="@Url.Action("Delete", new { id = thing.ID })" data-confirmation data-method="post" class="btn btn-sm btn-danger">
-                                        <i class="glyphicon glyphicon-remove"></i>
+                                        <i class="glyphicon glyphicon-trash"></i>
                                     </a>
                                 </td>
                             </tr>

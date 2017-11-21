@@ -20,17 +20,19 @@
         </div>
         <div class="form-group col-lg-12">
             @Html.LabelFor(m => m.Icon, htmlAttributes: new { @class = "control-label" })
-            @Html.TextBoxFor(m => m.Icon, new { @class = "form-control" })
+            <select id="Icon" name="Icon" class="selectpicker form-control">
+                @foreach (var item in ViewBag.icons)
+                {
+                    <option selected="@item.Selected" value="@item.Value" data-icon="@item.Value">@item.Text</option>
+                }
+            </select>
             @Html.ValidationMessageFor(m => m.Icon, "", new { @class = "text-danger" })
         </div>
 
         <input type="submit" value="Salvar" class="btn btn-primary" />
+        @Html.ActionLink("Voltar à Categorias", "Index", null, new { @class = "btn btn-default" })
     </div>
 }
-
-<div>
-    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn" })
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

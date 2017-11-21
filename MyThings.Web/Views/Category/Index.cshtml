@@ -22,7 +22,12 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => category.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => category.Icon)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(category.Icon))
+                        {
+                            <i class="@category.Icon"></i>
+                        }
+                    </td>
                     <td>
                         @*<a href="@Url.Action("Details", new { id = category.CategoryID })" class="btn btn-sm btn-primary">
                                 <i class="glyphicon glyphicon-open"></i>
@@ -31,7 +36,7 @@
                             <i class="glyphicon glyphicon-edit"></i>
                         </a>
                         <a href="@Url.Action("Delete", new { id = category.CategoryID })" data-confirmation data-method="post" class="btn btn-sm btn-danger">
-                            <i class="glyphicon glyphicon-remove"></i>
+                            <i class="glyphicon glyphicon-trash"></i>
                         </a>
                     </td>
                 </tr>

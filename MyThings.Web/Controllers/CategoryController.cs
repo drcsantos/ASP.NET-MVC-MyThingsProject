@@ -14,8 +14,80 @@ namespace MyThings.Web.Controllers
     public class CategoryController : Controller
     {
         private CategoryService ServiceFactory()
-        {                
-            return new CategoryService(User.Identity.Name);           
+        {
+            return new CategoryService(User.Identity.Name);
+        }
+
+        private string Icon(string icon)
+        {
+            return $"glyphicon glyphicon-{icon}";
+        }
+
+        private SelectListItem IconItem(string icon)
+        {
+            return new SelectListItem() { Value = Icon(icon.ToLower()), Text = icon };
+        }
+
+        private void LoadIcons(string selected = "")
+        {
+            var icons = new List<SelectListItem>();
+
+            icons.Add(IconItem("Asterisk"));
+            icons.Add(IconItem("Plus"));
+            icons.Add(IconItem("Minus"));
+            icons.Add(IconItem("Cloud"));
+            icons.Add(IconItem("Envelope"));
+            icons.Add(IconItem("Pencil"));
+            icons.Add(IconItem("Glass"));
+            icons.Add(IconItem("Music"));
+            icons.Add(IconItem("Search"));
+            icons.Add(IconItem("Heart"));
+            icons.Add(IconItem("Star"));
+            icons.Add(IconItem("Star-empty"));
+            icons.Add(IconItem("User"));
+            icons.Add(IconItem("Film"));
+            icons.Add(IconItem("Ok"));
+            icons.Add(IconItem("Remove"));
+            icons.Add(IconItem("Zoom-in"));
+            icons.Add(IconItem("Zoom-out"));
+            icons.Add(IconItem("Off"));
+            icons.Add(IconItem("Signal"));
+            icons.Add(IconItem("Cog"));
+            icons.Add(IconItem("Trash"));
+            icons.Add(IconItem("Home"));
+            icons.Add(IconItem("File"));
+            icons.Add(IconItem("Time"));
+            icons.Add(IconItem("Download-alt"));
+            icons.Add(IconItem("Download"));
+            icons.Add(IconItem("Upload"));
+            icons.Add(IconItem("Inbox"));
+            icons.Add(IconItem("Play-circle"));
+            icons.Add(IconItem("Repeat"));
+            icons.Add(IconItem("Refresh"));
+            icons.Add(IconItem("List-alt"));
+            icons.Add(IconItem("Lock"));
+            icons.Add(IconItem("Flag"));
+            icons.Add(IconItem("Headphones"));
+            icons.Add(IconItem("Volume-off"));
+            icons.Add(IconItem("Tag"));
+            icons.Add(IconItem("Tags"));
+            icons.Add(IconItem("Book"));
+            icons.Add(IconItem("Bookmark"));
+            //TODO: Emprove this list
+
+            if (!string.IsNullOrEmpty(selected))
+            {
+                foreach (var item in icons)
+                {
+                    if (item.Value == selected)
+                    {
+                        item.Selected = true;
+                        break;
+                    }
+                }
+            }            
+
+            ViewBag.icons = icons;
         }
 
         // GET: Category
@@ -27,6 +99,7 @@ namespace MyThings.Web.Controllers
         // GET: Category/Create
         public ActionResult Create()
         {
+            LoadIcons();
             return View();
         }
 
@@ -52,13 +125,14 @@ namespace MyThings.Web.Controllers
         // GET: Category/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)            
+            if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
+
             var category = ServiceFactory().FindById(id.Value);
-            if (category == null)            
+            if (category == null)
                 return HttpNotFound();
-            
+
+            LoadIcons(category.Icon);
             return View(category);
         }
 
@@ -69,13 +143,13 @@ namespace MyThings.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditPost(int? id)
         {
-            if (id == null)            
+            if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var service = ServiceFactory();
             var categoryToUpdate = service.FindById(id.Value);
             if (TryUpdateModel(categoryToUpdate, "",
-               new string[] { "Name", "Icon"}))
+               new string[] { "Name", "Icon" }))
             {
                 try
                 {
@@ -108,6 +182,6 @@ namespace MyThings.Web.Controllers
                 return View();
             }
             return RedirectToAction("Index");
-        }        
+        }
     }
 }
