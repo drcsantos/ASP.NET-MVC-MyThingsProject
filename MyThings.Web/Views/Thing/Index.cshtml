@@ -27,7 +27,7 @@
                         <tr>
                             <th width="40px"></th>
                             <th>Nome</th>
-                            <th>Está com</th>
+                            <th width="90px">Está com</th>
                             <th width="130px"></th>
                         </tr>
                     </thead>
@@ -39,7 +39,21 @@
                                     <img src="@thing.ImageLink" class="img-rounded" alt="photo" />
                                 </td>
                                 <td><h4>@Html.DisplayFor(modelItem => thing.Name)</h4></td>
-                                <td></td>
+                                <td>
+                                    @if (thing.PersonID == null)
+                                    {
+                                        <a href="@Url.Action("Lend", new { id = thing.ID })" class="btn btn-sm btn-success">
+                                            <i class="glyphicon glyphicon-share-alt"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Lend", new { id = thing.ID })">
+                                            <img class="img-rounded" src="@thing.Person.ImageLink" alt="@thing.Person.Name" />
+                                        </a>
+                                    }
+                                    
+                                </td>
                                 <td>
                                     <a href="@Url.Action("Details", new { id = thing.ID })" class="btn btn-sm btn-primary">
                                         <i class="glyphicon glyphicon-open"></i>

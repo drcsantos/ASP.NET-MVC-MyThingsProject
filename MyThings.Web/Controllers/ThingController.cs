@@ -1,5 +1,6 @@
 ﻿using MyThings.Web.Models;
 using MyThings.Web.Services;
+using MyThings.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -32,6 +33,16 @@ namespace MyThings.Web.Controllers
         private void LoadCategories(object selectedValue = null)
         {
             ViewBag.CategoryID = new SelectList(GetCategories(), "CategoryID", "Name", selectedValue);
+        }
+
+        private IEnumerable<Person> GetPeople()
+        {
+            return (new PersonService(User.Identity.Name)).FindAll();
+        }
+
+        private void LoadPeople(object selectedValue = null)
+        {
+            ViewBag.PersonID = new SelectList(GetPeople(), "PersonID", "FullName", selectedValue);
         }
 
         // GET: Thing
@@ -71,6 +82,58 @@ namespace MyThings.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
             return View(value);
+        }
+
+        // GET: Thing/Lend/5
+        public ActionResult Lend(Guid? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var thing = Service.FindById(id.Value);
+            if (thing == null)
+                return HttpNotFound();
+
+            var view = new LendViewModel()
+            {
+                ThingID = thing.ID,
+                ThingName = thing.Name,
+                ThingImageLink = thing.ImageLink,
+                ThingCategoryName = thing.Category.Name,
+                LentDate = thing.LentDate == null ? DateTime.Now.Date : thing.LentDate.Value,
+                PersonID = thing.PersonID
+            };
+            LoadPeople(thing.PersonID);
+            return View(view);
+        }
+
+        // POST: Thing/Lend/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost, ActionName("Lend")]
+        [ValidateAntiForgeryToken]
+        public ActionResult LendPost(Guid? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var service = Service;
+            var thingToUpdate = service.FindById(id.Value);
+            if (TryUpdateModel(thingToUpdate, "",
+               new string[] { "PersonID", "LentDate" }))
+            {
+                try
+                {
+                    service.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            }
+            return View(thingToUpdate);
         }
 
         // GET: Thing/Edit/5
